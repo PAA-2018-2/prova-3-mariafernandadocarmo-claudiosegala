@@ -73,6 +73,17 @@ Maria Fernanda do Carmo - 14/0153641 \\
     
     % possível caso que dê ruim: (a+b)(-a+-b)(a+c)(-c+-d)(-a+e)(-e+d)
     
+    \\ Sabemos que:
+        $$ (x_i \lor x_j) \equiv (\neg x_i \to x_j) \land (\neg x_j \to x_i)$$
+    
+    É possível também notar que um caso do 2-SAT só será insatisfatível se e somente se existe algum literal que não importa o que seja feito sempre gere uma contradição.
+    
+    Para provar isso vamos usar uma prova por contradição. Suponhamos que temos um caso P' de 2-SAT satisfatível e que possua algum literal l que se assumir valor falso, depois vai ser exigido que possua um valor verdadeiro e vice-versa e que temos a solução para esse caso. Tendo a solução é possível verificá-la em P. Porém, se l for falso nessa solução, alguma cláusula que exige que ele seja verdadeira não será e a cláusula se tornará falsa. Contradição, pois P' era para ser satisfatível.
+    
+    Dado uma instância P de 2-SAT, transforme cada cláusula para a forma de implicações como mostrado no início dessa questão. Após fazer isso, crie um grafo G que represente essa rede de implicações, onde uma implicação é uma aresta e cada literal e sua versão negada são vértices.
+    Agora é preciso saber se sempre existe algum literal que vai exigir o oposto de seu valor não importando qual valor for escolhido, em outras palavras, se existe isso:
+        $$(x_i \to \neg x_i) \land (\neg x_i \to x_i)$$
+    Isso pode ser feito em tempo polinomial utilizando o algoritmo de Kosajaru que encontra componentes conexas, isto é, vai encontrar se é possível chegar diretamente ou indiretamente de $x_i$ para $\neg x_i$ e o inverso.
   }
   
 \newpage
@@ -111,11 +122,14 @@ E todas as reduções (de 3-SAT para $Q'$, de $Q'$ para $Q$ e de $Q$ para HAM-CY
 
 \resposta{
     \\O caminho escolhido foi: 3-SAT para Hamiltonian Cycle.\\
-    Começamos com uma expressão 3-SAT, ela contem n variáveis, logo são $2^n$ possibilidades. Queremos que cada uma dessas possibilidades seja modelada com um Hamiltonian Cycle. Cada variável tem seu caminho correspondente $c_1$, $c_2$...$c_n$. Cada um desses caminhos consiste de 2k nós. Onde k é o número de cláusulas na expressão.\\Depois vamos atribuir os nós aos caminhos, e ligar cada nó ao nó do lado direito. Depois cada nó será ligado ao nó do lado esquerdo. Em seguida todos os nós das pontas serão conectados também 
-  }
-  
+    Começamos com uma expressão 3-SAT, ela contem n variáveis, logo são $2^n$ possibilidades. Queremos que cada uma dessas possibilidades seja modelada com um Hamiltonian Cycle. Cada variável tem seu caminho correspondente $c_1$, $c_2$...$c_n$. Cada um desses caminhos consiste de 2k nós. Onde k é o número de cláusulas na expressão.\\Depois vamos atribuir os nós aos caminhos, e ligar cada nó ao nó do lado direito. Depois cada nó será ligado ao nó do lado esquerdo. Em seguida todos os nós das pontas serão conectados também, tanto ao nó diretamente abaixo, como também ao diretamente abaixo da outra extremidade. \\
+    Dois novos nós são adicionados, um acima e outro abaixo do caminho, o de cima é ligado às duas extremidades superiores e o de baixo às duas extremidades inferiores.  O nó inferior, é também conectado ao superior. E novos nós são adicionados ao grafo, seu número é igual ao número de cláusulas usadas anteriormente. As cláusulas são conectadas às variáveis que as contêm. O sentido sempre é 
+  nó d} cláusula, que vai ser conectada a primeira variável do caminho e depois à segunda variável do caminho.\\
+    Após todas as ligações, qualquer ciclo Hamiltoniano construído no Grafo independe de direções. Como cada caminho pode ser percorrido em 2 direções e são n caminhos, que mapeiam n variáveis. Então existem $2^n$ ciclos Hamiltonianos correspondentes a um conjunto de variáveis. 
+    Logo, esse grafo pode ser construído em tempo polinomial.
+  a
 \newpage
-\item {\bf (2.5 pontos)} Considere o seguinte jogo em um grafo
+\do item {\bf (2.5 pontos)} Considere o seguinte jogo em um grafo
   (não-dirigido) $G$, que inicialmente contém 0 ou mais bolas de gude
   em seus vértices: um movimento deste jogo consiste em remover duas
   bolas de gude de um vértice $v\in G$, e adicionar uma bola a algum
@@ -129,7 +143,7 @@ E todas as reduções (de 3-SAT para $Q'$, de $Q'$ para $Q$ e de $Q$ para HAM-CY
   ser incluídas na solução.
 
   \resposta{
-    \\Considere uma versão mais simples desse problema onde todos os vértices tem uma bola e apenas um deles tem duas bolas. Além disso, considere que Hamiltonian Path é NP-Completo, como fora mostrado na questão acima. 
+    \\Considere uma versão mais simples desse problema onde todos os vértices tem uma bola e apenas um deles tem duas bolas. Além disso, considere que Hamiltonian Path é NP-Completo. 
     
     O objetivo é prova que essa versão mais simples do problema é NP-Completo através do Hamiltonian Path e usar a versão mais simples para mostrar que o problema dado é NP-Completo.
     
@@ -153,7 +167,7 @@ E todas as reduções (de 3-SAT para $Q'$, de $Q'$ para $Q$ e de $Q$ para HAM-CY
     
     Terceiro, vamos mostrar que a versão simplificada só tem solução se e somente se a versão original tem solução.
     
-    Considere um grafo G
+    Considere um grafo G...
   }
  
 \newpage
