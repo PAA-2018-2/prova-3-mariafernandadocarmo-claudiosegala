@@ -6,6 +6,7 @@
 \usepackage{pdfsync}
 \usepackage[all]{xy}
 \usepackage{color}
+\usepackage{enumerate}
 
 \newcommand{\resposta}[1]{ \noindent {\bf Solução}.{\color{blue} #1}}
 
@@ -13,11 +14,16 @@
 Departamento de Ciência da Computação} \\[1cm]
 CIC 117536 - Projeto e Análise de Algoritmos \\[.5cm]  Terceira Prova \\[.5cm] Turma: B}
 \author{{\bf NP-completude}}
-\date{Prof. Flávio L. C. de Moura \\[.5cm] \today}
+\date{
+Prof. Flávio L. C. de Moura \\
+Claudio Segala R. Silva Filho - 15/0032552 \\
+Maria Fernanda do Carmo - 14/0153641 \\
+\\[.5cm] \today}
 
 \begin{document}
 \maketitle
 
+\newpage
 \begin{enumerate}
 \item {\bf (2.5 pontos)} O problema 2-SAT tem como instâncias as
   fórmulas lógicas formadas por conjunções de disjunções de até dois
@@ -31,9 +37,45 @@ CIC 117536 - Projeto e Análise de Algoritmos \\[.5cm]  Terceira Prova \\[.5cm] 
 
  
   \resposta{
-    Escreva aqui sua solução.
+    %A prova será por construção de um algoritmo que está em P. Segue um resumo do algoritmo:
+    
+    %\begin{enumerate}[1.]
+    %    \item Pré-processamento de cláusulas desnecessárias
+    %    \item Pré-processamento para eliminação de cláusulas com somente %um literal
+    %    \item Pré-processamento para eliminação de cláusulas que possuem %literais que aparecem somente negados ou somente não negados.
+    %    \item Pré-processamento separar a expressão em partes cujo os %literais são independentes entre si.
+    %    \item Para cada literal tentar uma solução assumindo que o %literal seja verdadeiro ou falso.
+    %\end{enumerate}
+    
+    %O foco dos pré-processamento é deixar o a expressão de um jeito que sempre que existir um literal, haverá também sua versão negada.
+    
+    %Na primeira etapa temos como objetivo eliminar cláusulas desnecessárias, isto é, que já são verdadeiras por si só. Isso pode ser feito percorrendo a expressão e removendo a cláusula. Exemplo de cláusula desnecessária:
+    %    $$(\neg x_i \lor x_i)$$
+    %Podemos remover essas cláusulas sem alterar a satisfatividade da expressão, uma vez que ela já era verdadeira.
+    
+    %Na segunda etapa temos como objetivo eliminar cláusulas com somente um literal. Para isso temos duas partes. 
+    
+    %A primeira parte consiste em verificar se existe literal sozinho, tanto normal quanto negado.  
+    %    $$\neg x_i \land x_i$$
+    %Se existir, então o problema é insolúvel. Essa primeira parte pode ser feita percorrendo a expressão uma vez e anotando quais os literais que se encontram sozinhos e em que forma estavam. Depois basta verificar na estrutura se tem algum literal que ocorre com formas diferentes. Isso pode ser feito de forma linear.
+    
+    %Segunda parte consiste em verificar quais literais que ocorrem sozinhos e dar a eles o valor que permite satisfazibilidade da expressão. Anulando as cláusulas onde o valor do literal gerar um resultado verdadeiro para cláusula e simplificando as cláusulas que o valor do literal não traz diretamente o valor da cláusula (ficando com somente um literal). Para fazer essa parte basta percorrer a expressão para cada literal sozinho, removendo/adaptando cada cláusula. O tempo de remover/adaptar depende da estrutura na qual se está trabalhando, mas é possível fazer em P.
+    
+    %Na terceira etapa temos como objetivo eliminar cláusulas que possuem literais que aparecem somente negados ou não negados. Considerando um literal que só aparece em uma das formas, ao lhe dar um valor que não soluciona as cláusulas que aparecem, alguns literais vão ter que assumir algum valor. Porém ao dar um valor que soluciona as cláusulas que aparecem, além de diminuir a expressão, não faz com que nenhum outro literal tenha que assumir algum valor. Logo, podemos assumir o valor que soluciona as cláusulas e remover todas as cláusulas sem dano à satisfatividade da expressão. Verificar se um literal aparece em uma das formas e a remoção de cláusulas pode ser feito em P.
+    
+    %A quarta etapa tem como objetivo separar a expressão em partes cujo os literais são independentes entre si. Para fazer isso basta criar um grafo não dirigido a partir da expressão (cada cláusula seria uma aresta que conecta os literais ignorando se estão na forma negada ou não) e achar as componentes utilizando \textit{DFS}. Uma vez feito isso, é possível separar a expressão em diversas expressões independentes entre si. 
+    
+    %A quinta etapa tem como objetivo solucionar a satisfatividade das expressões, lembrando que agora a expressão sempre tem dois literais por cláusula e sempre há a forma normal e a negada de cada literal. Para cada expressão será feito a verificação de satisfatividade, a expressão inicial só será satisfazível se todas essas expressões também forem.
+    
+    %Essa etapa utiliza uma propriedade que será provada mais tarde. Essa propriedade é: dado uma expressão 2-SAT e feitos os pré-processamentos descritos, uma vez definido um valor para um literal, isso gera um efeito dominó que vai definir outros literais. O resultado vai ser descoberta de uma contradição ou de valores válidos para os literais atingidos que fazem parte da solução de uma possível satisfatividade. Visto que podem existir cláusulas totalmente independentes de outras, então encontrar um resultado satisfazível para algumas cláusulas não indica satisfatividade de todas as outras.
+    
+    %Considerado isso, podemos para cada literal 
+    
+    % possível caso que dê ruim: (a+b)(-a+-b)(a+c)(-c+-d)(-a+e)(-e+d)
+    
   }
   
+\newpage
 \item {\bf (2.5 pontos)} Em aula, assumimos que SAT é um problema
   NP-completo (Teorema de Cook-Levin), e a partir deste fato mostramos
   que 3-SAT e CLIQUE também são problemas NP-completos. As reduções
@@ -45,7 +87,7 @@ CIC 117536 - Projeto e Análise de Algoritmos \\[.5cm]  Terceira Prova \\[.5cm] 
     CLIQUE 
   }$$
   
-  Um ciclo Hamiltoniano é um ciclo simple que visita cada vértice de
+  Um ciclo Hamiltoniano é um ciclo simples que visita cada vértice de
   um grafo exatamente uma vez. Considere o problema de decisão
   HAM-CYCLE que pergunta se um dado grafo (não-dirigido) $G$ possui um
   ciclo Hamiltoniano. Mostre que HAM-CYCLE é um problema
@@ -68,9 +110,11 @@ $$\xymatrix{
 E todas as reduções (de 3-SAT para $Q'$, de $Q'$ para $Q$ e de $Q$ para HAM-CYCLE) devem ser detalhadas na sua solução.
 
 \resposta{
-    Escreva aqui sua solução.
+    \\O caminho escolhido foi: 3-SAT para Hamiltonian Cycle.\\
+    Começamos com uma expressão 3-SAT, ela contem n variáveis, logo são $2^n$ possibilidades. Queremos que cada uma dessas possibilidades seja modelada com um Hamiltonian Cycle. Cada variável tem seu caminho correspondente $c_1$, $c_2$...$c_n$. Cada um desses caminhos consiste de 2k nós. Onde k é o número de cláusulas na expressão.\\Depois vamos atribuir os nós aos caminhos, e ligar cada nó ao nó do lado direito. Depois cada nó será ligado ao nó do lado esquerdo. Em seguida todos os nós das pontas serão conectados também 
   }
   
+\newpage
 \item {\bf (2.5 pontos)} Considere o seguinte jogo em um grafo
   (não-dirigido) $G$, que inicialmente contém 0 ou mais bolas de gude
   em seus vértices: um movimento deste jogo consiste em remover duas
@@ -85,9 +129,34 @@ E todas as reduções (de 3-SAT para $Q'$, de $Q'$ para $Q$ e de $Q$ para HAM-CY
   ser incluídas na solução.
 
   \resposta{
-    Escreva aqui sua solução.
+    \\Considere uma versão mais simples desse problema onde todos os vértices tem uma bola e apenas um deles tem duas bolas. Além disso, considere que Hamiltonian Path é NP-Completo, como fora mostrado na questão acima. 
+    
+    O objetivo é prova que essa versão mais simples do problema é NP-Completo através do Hamiltonian Path e usar a versão mais simples para mostrar que o problema dado é NP-Completo.
+    
+    Primeiro vamos mostrar que a versão mais simples é verificável em P. Para isso será mostrado um algoritmo polinomial que o resolve. Dado uma solução (uma sequência de movimentos), basta executar em sequência as operações descritas e depois verificar se no final temos apenas um vértice com uma bola.
+    
+    Segundo, vamos mostrar que Hamiltonian Path tem solução se e somente se a versão mais simples também tem solução. 
+    
+    Considere um grafo qualquer Q e para cada vértice adicione um a bola e para um vértice qualquer coloque duas bolas. Ao achar um caminho hamiltoniano em Q, podemos começar do vértice que tem duas bolas e executar a operação de transferência de bolas para o próximo vértice do caminho, quando terminar de passar por todos os vértices, vamos ter somente um vértice com duas bolas, para tornar terminar seria preciso somente um movimento de realizar a operação de transferência de bolas para qualquer vértice adjacente.
+    
+    Considere agora um grafo qualquer Q' com todos os vértices com uma bola e um com duas bolas. Sabemos que:
+    
+    \begin{enumerate}
+        \item Só podemos realizar a operação de transferência a partir de um vértice com duas bolas e vértice que recebeu agora tem duas bolas.
+        \item Quando realizado a operação, o vértice que cedeu as bolas fica sem bolas
+        \item Ao ir para um vértice já visitado (sem bolas), não há mais movimentos para fazer (não há mais vértices com dois).
+    \end{enumerate}
+    
+    Ao encontrar um jeito de resolver o problema, temos uma sequencia de ações de um vértice u para um ouro v. Sendo que somente no último houve uma visitação de um vértice já visitado para terminar. Assim, ao desconsiderar a última ação, temos um fluxo das bolas que passa por todos os vértices sem nunca repetir um vértice, um caminho hamiltoniano.
+    
+    Logo, a versão mais simples do problema é NP-Completo. 
+    
+    Terceiro, vamos mostrar que a versão simplificada só tem solução se e somente se a versão original tem solução.
+    
+    Considere um grafo G
   }
-  
+ 
+\newpage
 \item {\bf (2.5 pontos)} Uma fórmula booleana em {\it forma normal conjuntiva com disjunção exclusiva (FNCX)} é uma conjunção de diversas cláusulas, e cada cláusula é uma disjunção exclusiva (XOR) de diversos literais. Lembre-se que a disjunção exclusiva é dada por:
 
   $$\begin{array}{|l|l|l|}\hline
@@ -106,7 +175,16 @@ E todas as reduções (de 3-SAT para $Q'$, de $Q'$ para $Q$ e de $Q$ para HAM-CY
   intermediárias, caso existam, devem ser incluídas na solução.
 
   \resposta{
-    Escreva aqui sua solução.
+    \\Dada uma instância P qualquer de FNCX. Toda cláusula de P estará na forma:
+        $$x_1 \oplus ... \oplus x_n$$ 
+    Com n maior que 0. Como esse tipo de cláusula só pode ser verdadeira se a quantidade de literais verdadeiros for ímpar, podemos por qualquer cláusula na forma de uma expressão aritmética modular em 2. Sendo que o valor verdade vira 1 e o valor falso vira 0. Logo a cláusula só é verdade se é possível resolver a seguinte equação: 
+        $$x_1 + ... + x_n \equiv  1 \mod 2$$
+    Em caso de um literal negado, podemos inverter o valor que contribuiria para a equação adicionando 1, visto que:
+        $$1+0 \equiv 1  \mod 2$$ e $$1 + 1 \equiv 0 \mod 2$$
+    Exemplo: 
+        $$(x_1 \oplus \neg x_2 \oplus \neg x_3) \implies (x_1 + (1 + x_2) + (1 + x_3)) \equiv 1 \mod 2)$$
+    Como todas as cláusulas tem que ser verdadeiras, podemos montar um sistema composto das transformações das cláusulas em equação.\\
+    Como um sistema, podemos classificar "consistente" se possui pelo menos uma solução e "inconsistente" se não possui solução. Logo, se o sistema for consistente, teremos que a expressão será satisfatível, já que existe uma solução que dê $1 \mod 2$ para todas as equações. Se for inconsistente, não terá solução e será insatisfatível.\\ Existem vários métodos que podem classificar aquela expressão, sendo um deles Gauss Row Reduction.
   }
 \end{enumerate}
 
